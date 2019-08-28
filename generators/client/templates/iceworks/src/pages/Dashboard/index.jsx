@@ -9,14 +9,10 @@ import RecentOrders from './components/RecentOrders';
 import TopOrders from './components/TopOrders';
 import TotalRevenue from './components/TotalRevenue';
 import RevenueCate from './components/RevenueCate';
-import {SearchOrderByGateway} from "@/apis/api";
 
 const { Row, Col } = Grid;
 
 export default function Dashboard() {
-  SearchOrderByGateway().invoke(() => {
-    console.log('success')
-  });
   return (
     <div>
       <PageHead title="工作台" />

@@ -12,11 +12,11 @@ let requestInvoker = http;
 // todo: api地址内网化
 switch (env.toLowerCase()) {
   case 'pro':
-    host = 'https://007.aihuishou.com';
+    host = '<%= uatEndpoint %>';
     requestInvoker = https;
     break;
   case 'uat':
-    host = 'https://uat007.aihuishou.com';
+    host = '<%= proEndpoint %>';
     requestInvoker = https;
     break;
   default:

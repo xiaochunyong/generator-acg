@@ -98,5 +98,5 @@ if (program.args.length < 1) {
     logger.debug('No command specified. Running default');
     logger.info(chalk.yellow('Running default command'));
     const options = getCommandOptions(packageJson, process.argv.slice(2));
-    runYoCommand('app', [], options, {});
+    runYoCommand('client', [], options, {});
 }

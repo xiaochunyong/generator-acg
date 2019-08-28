@@ -3,9 +3,9 @@ const path = require('path');
 let publicPath = './';
 const envParam = process.env.ENV || '';
 if (envParam === 'uat') {
-  publicPath = 'https://mtabc.aihuishou.com/uat/inspection/';
+  publicPath = '<%= uatPublicPath %>';
 } else if (envParam === 'pro') {
-  publicPath = 'https://mtabc.aihuishou.com/inspection/';
+  publicPath = '<%= proPublicPath %>';
 }
 
 module.exports = {
@@ -27,8 +27,7 @@ module.exports = {
     historyApiFallback: true,
   },
   chainWebpack: (config, { command }) => {
-    console.log(command)
-    if (command === 'build' || true) {
+    if (command === 'build') {
       config.optimization.splitChunks({
         cacheGroups: {
           vendor: {

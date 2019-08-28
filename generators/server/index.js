@@ -7,12 +7,14 @@ const utils = require('../utils');
 
 module.exports = class extends Generator {
     initializing() {
-        this.props = {};
+        this.props = {
+            template: 'spring-boot-with-kotlin'
+        };
     }
 
     prompting() {
         // Have Yeoman greet the user.
-        this.log(yosay(`Welcome to the beautiful ${chalk.red('generator-project')} generator!`));
+        this.log(yosay(`Welcome to the beautiful ${chalk.red('generator-acg')} generator!`));
 
         const prompts = [
             // {
@@ -31,36 +33,36 @@ module.exports = class extends Generator {
                 name: 'description',
                 message: 'Please input project description:'
             },
-            {
-                type: 'input',
-                name: 'main',
-                message: 'Main file (index.js):',
-                default: 'index.js'
-            },
-            {
-                type: 'input',
-                name: 'keywords',
-                message: 'Package keywords (comma to split)',
-                default: 'react,iceworks'
-            },
-            {
-                type: 'input',
-                name: 'template',
-                message: 'Please input template name:',
-                default: 'spring-boot-with-kotlin'
-            },
-            {
-                type: 'input',
-                name: 'uatPublicPath',
-                message: 'Please input uat publicPath:',
-                default: 'https://mtabc.aihuishou.com/uat/inspection/'
-            },
-            {
-                type: 'input',
-                name: 'proPublicPath',
-                message: 'Please input pro publicPath:',
-                default: 'https://mtabc.aihuishou.com/inspection/'
-            },
+            // {
+            //     type: 'input',
+            //     name: 'main',
+            //     message: 'Main file (index.js):',
+            //     default: 'index.js'
+            // },
+            // {
+            //     type: 'input',
+            //     name: 'keywords',
+            //     message: 'Package keywords (comma to split)',
+            //     default: 'react,iceworks'
+            // },
+            // {
+            //     type: 'input',
+            //     name: 'template',
+            //     message: 'Please input template name:',
+            //     default: 'spring-boot-with-kotlin'
+            // },
+            // {
+            //     type: 'input',
+            //     name: 'uatPublicPath',
+            //     message: 'Please input uat publicPath:',
+            //     default: 'https://mtabc.aihuishou.com/uat/inspection/'
+            // },
+            // {
+            //     type: 'input',
+            //     name: 'proPublicPath',
+            //     message: 'Please input pro publicPath:',
+            //     default: 'https://mtabc.aihuishou.com/inspection/'
+            // },
             {
                 type: 'input',
                 name: 'author',
@@ -95,7 +97,7 @@ module.exports = class extends Generator {
 
         return this.prompt(prompts).then(props => {
             // To access props later use this.props.someAnswer;
-            this.props = props;
+            this.props = { ...this.props, ...props };
             if (this.props.namespace) {
                 this.props.fullName = `${this.props.namespace}/${this.props.name}`;
             } else {
@@ -120,21 +122,23 @@ module.exports = class extends Generator {
     }
 
     _writingCommonFiles() {
-        const files = ['LICENCE', 'pom.xml', 'README.md'];
-        files.forEach(file => this.fs.copyTpl(this.templatePath(`${this.props.template}/${file}`), this.destinationPath(file)), {
-            name: this.props.name,
-            fullName: this.props.fullName,
-            author: this.props.author,
-            license: this.props.license,
-            camelCaseName: utils.getCamelCaseName(this.props.name),
-            year: new Date().getFullYear()
-        });
+        const files = ['LICENCE', 'pom.xml', 'README.md.ejs'];
+        files.forEach(file =>
+            this.fs.copyTpl(this.templatePath(`${this.props.template}/${file}`), this.destinationPath(file), {
+                name: this.props.name,
+                fullName: this.props.fullName,
+                author: this.props.author,
+                license: this.props.license,
+                camelCaseName: utils.getCamelCaseName(this.props.name),
+                year: new Date().getFullYear()
+            })
+        );
     }
 
     _writingSrc() {
         this.fs.copy(
             this.templatePath(`${this.props.template}/spring-boot-with-kotlin-app`),
-            this.destinationPath('spring-boot-with-kotlin-app')
+            this.destinationPath('spring-boot-with-kotlin-client')
         );
         this.fs.copy(
             this.templatePath(`${this.props.template}/spring-boot-with-kotlin-domain`),
