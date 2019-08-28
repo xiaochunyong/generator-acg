@@ -28,8 +28,8 @@ acg
 Apache-2.0 © [Ely.Xiao](https://ely.me)
 
 
-[npm-image]: https://badge.fury.io/js/@ely.me/generator-acg.svg
-[npm-url]: https://npmjs.org/package/@ely.me/generator-acg
+[npm-image]: https://badge.fury.io/js/@elyxiao/generator-acg.svg
+[npm-url]: https://npmjs.org/package/@elyxiao/generator-acg
 [travis-image]: https://travis-ci.com/xiaochunyong/generator-acg.svg?branch=master
 [travis-url]: https://travis-ci.com/xiaochunyong/generator-acg
 [daviddm-image]: https://david-dm.org/xiaochunyong/generator-acg.svg?theme=shields.io
