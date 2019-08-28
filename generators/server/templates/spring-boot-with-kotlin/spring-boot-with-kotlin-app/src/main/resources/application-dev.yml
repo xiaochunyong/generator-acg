@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?autoReconnect=true&serverTimezone=GMT%2b8
+    username: root
+    password: 11111111
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+#  datasource:
+#    driverClassName: org.h2.Driver
+#    url: jdbc:h2:file:./target/h2db/db/myapp;DB_CLOSE_DELAY=-1
+#    username: root
+#    password:
+#    h2:
+#      console:
+#        enabled: false
+#    jpa:
+#      database-platform: io.github.jhipster.domain.util.FixedH2Dialect
+#      database: H2
+#      show-sql: true
+#      hibernate:
+#        ddl-auto: create
+#      properties:
+#        hibernate.id.new_generator_mappings: true
+#        hibernate.connection.provider_disables_autocommit: true
+#        hibernate.cache.use_second_level_cache: true
+#        hibernate.cache.use_query_cache: false
+#        hibernate.generate_statistics: false
+  data:
+    mongodb:
+      uri: mongodb+srv://ely:elyatmlab@cluster0-yinnj.mongodb.net/testdb?retryWrites=true&w=majority

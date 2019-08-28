@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="log.base" value="spring-boot-with-kotlin-app"/> <!-- 工程名-->
+    <property name="log.fileSuffix" value="log"/>
+    <!--SQL相关-->
+    <appender name="sqlProfile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/log/${log.base}/sql/sql.${log.fileSuffix}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>/data/log/${log.base}/sql/sql.%d{yyyy-MM-dd}.${log.fileSuffix}
+            </FileNamePattern>
+            <MaxHistory>20</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{host}] [%thread] %-5level %logger{256} - %msg%n</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
+    </appender>
+    <appender name="asyncSqlProfile" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>100</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <appender-ref ref="sqlProfile"/>
+    </appender>
+    <!--暂时不记录sql参数值，大多数情况可通过request log计算得出-->
+    <!--<logger name="org.hibernate.type" level="TRACE" additivity="false">-->
+    <!--<appender-ref ref="asyncSqlProfile" />-->
+    <!--</logger>-->
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+        <appender-ref ref="asyncSqlProfile"/>
+    </logger>
+
+    <!--HTTP请求响应相关-->
+    <appender name="requestInfo"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/log/${log.base}/request/request.${log.fileSuffix}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--在工程目录下自动生成logs文件夹 -->
+            <FileNamePattern>/data/log/${log.base}/request/request.%d{yyyy-MM-dd}.${log.fileSuffix}</FileNamePattern>
+            <MaxHistory>10</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{256} - %msg%n</pattern>
+        </layout>
+    </appender>
+    <appender name="asyncRequestinfo" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>100</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <appender-ref ref="requestInfo"/>
+    </appender>
+    <logger name="me.ely.component.SimpleRequestLoggingFilter" level="ALL"
+            additivity="false">
+        <appender-ref ref="asyncRequestinfo"/>
+    </logger>
+
+    <!--一般日志-->
+    <appender name="fileInfo"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/log/${log.base}/info/info.${log.fileSuffix}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--在工程目录下自动生成logs文件夹 -->
+            <FileNamePattern>/data/log/${log.base}/info/info.%d{yyyy-MM-dd}.${log.fileSuffix}</FileNamePattern>
+            <!-- 最多保存X天 -->
+            <MaxHistory>5</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{256} - %msg%n</pattern>
+        </layout>
+        <!-- <param name="LocationInfo" value="true" /> -->
+        <!-- 过滤器，只记录INFO级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="fileWarn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/log/${log.base}/warn/warn.${log.fileSuffix}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>/data/log/${log.base}/warn/warn.%d{yyyy-MM-dd}.${log.fileSuffix}
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{256} - %msg%n</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="fileError" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/log/${log.base}/error/error.${log.fileSuffix}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>/data/log/${log.base}/error/error.%d{yyyy-MM-dd}.${log.fileSuffix}
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{256} - %msg%n</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="asyncInfo" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>100</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>1024</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="fileInfo"/>
+    </appender>
+    <appender name="asyncWarn" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>100</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <appender-ref ref="fileWarn"/>
+    </appender>
+    <appender name="asyncError" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>100</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <appender-ref ref="fileError"/>
+    </appender>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="asyncInfo"/>
+        <appender-ref ref="asyncWarn"/>
+        <appender-ref ref="asyncError"/>
+    </root>
+    <!--默认配置-->
+</configuration>   

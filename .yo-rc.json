@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Ely.Xiao",
+      "authorEmail": "xiaochunyong@gmail.com",
+      "authorUrl": "https://ely.me"
+    }
+  }
+}

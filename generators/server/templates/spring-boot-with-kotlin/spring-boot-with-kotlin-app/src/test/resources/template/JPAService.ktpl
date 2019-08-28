@@ -1,0 +1,57 @@
+package me.ely.service
+
+import me.ely.domain.entity.${className}
+import me.ely.domain.entity.${className}_
+import me.ely.domain.request.${className}SearchRequestModel
+import me.ely.repository.jpa.${className}Repository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
+import org.springframework.stereotype.Service
+import java.util.*
+import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.criteria.Predicate
+import javax.persistence.criteria.Root
+
+@Service
+class ${className}Service : AbstractJpaService<${className}, Int, ${className}Repository>() {
+
+    fun search(requestModel: ${modelClassName}): Page<${className}> {
+        val cb = entityManager.criteriaBuilder
+        val dataCq = cb.createQuery(${className}::class.java)
+        val dataRoot = dataCq.from(${className}::class.java)
+        val dataPredicates = buildSearchPredicates(requestModel, cb, dataRoot)
+        dataCq.where(*dataPredicates)
+        dataCq.orderBy(cb.desc(dataRoot.get(${className}_.createDt)))
+        val typedQuery = entityManager.createQuery(dataCq)
+        typedQuery.firstResult = requestModel.pageSize!! * Math.max(requestModel.pageIndex!! - 1, 0)
+        typedQuery.maxResults = requestModel.pageSize!!
+        val data = typedQuery.resultList
+
+        val countCq = cb.createQuery(Long::class.java)
+        val countRoot = countCq.from(${className}::class.java)
+        val countPredicates = buildSearchPredicates(requestModel, cb, countRoot)
+        countCq.select(cb.count(countRoot)).where(*countPredicates)
+        val count = entityManager.createQuery(countCq).singleResult
+
+
+
+        return PageImpl(data, PageRequest.of(Math.max(requestModel.pageIndex!! - 1, 0), requestModel.pageSize!!, Sort(Sort.Direction.DESC, "id")), count!!)
+    }
+
+    private fun buildSearchPredicates(requestModel: ${modelClassName}, cb: CriteriaBuilder, dataRoot: Root<${className}>): Array<Predicate> {
+        val conditions = ArrayList<Predicate>()
+        <#list eqList as fieldName>
+        if (!requestModel.${fieldName}.isNullOrEmpty()) {
+            conditions.add(cb.eq(dataRoot.get(${className}_.${fieldName}), requestModel.${fieldName}))
+        }
+        </#list>
+        <#list likeList as fieldName>
+        if (!requestModel.${fieldName}.isNullOrEmpty()) {
+            conditions.add(cb.like(dataRoot.get(${className}_.${fieldName}), "%" + requestModel.${fieldName} + "%"))
+        }
+        </#list>
+        return conditions.toTypedArray()
+    }
+}

@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: ${ENV:dev}
+  jpa:
+    database: MYSQL
+    show-sql: false
+    hibernate:
+      naming:
+        physical-strategy: me.ely.component.PhysicalNamingStrategyImpl
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show-sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        type: trace
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /actuator
+
+github:
+  endpoint: https://api.github.com
+
+logging:
+  level:
+    me.ely.client: debug

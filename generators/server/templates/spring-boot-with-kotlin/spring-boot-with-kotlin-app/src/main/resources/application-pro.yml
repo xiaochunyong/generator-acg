@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://hostname:3306/dbname
+    username: username
+    password: password
+    driverClassName: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb+srv://ely:elyatmlab@cluster0-yinnj.mongodb.net/testdb?retryWrites=true&w=majority
+logging:
+  config: classpath:logback-spring-server.xml

@@ -1,0 +1,28 @@
+### 获取用户列表
+GET http://localhost:8080/user/?pageIndex=2
+Accept: application/json
+
+{}
+### 获取指定用户
+GET http://localhost:8080/user/1
+Accept: application/json
+
+### 枚举类型生成对应的JS代码
+GET http://localhost:8080/v2/cons/gen
+Accept: application/javascript
+
+###
+POST http://localhost:8080/order/
+Content-Type: application/json
+
+{
+  "no": "2019062701",
+  "productId": "1",
+  "productName": "深入理解SpringBook",
+  "limit": "59.9",
+  "createDate": "2019-06-27 17:18:00",
+  "createUserId": "1",
+  "createUserName": "Ely Xiao"
+}
+
+###

@@ -1,0 +1,40 @@
+package me.ely.service
+
+import me.ely.domain.document.${className}
+import me.ely.domain.request.${className}SearchRequestModel
+import me.ely.repository.mongo.${className}Repository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
+import org.springframework.stereotype.Service
+
+@Service
+class ${className}Service : AbstractMongoService<${className}, String, ${className}Repository>() {
+
+    fun search(requestModel: ${modelClassName}): Page<${className}> {
+        val query = buildSearchQuery(requestModel)
+        val sort = Sort(Sort.Direction.DESC, ${className}::id.name)
+        val pageableAndSort = PageRequest.of(requestModel.pageIndex, requestModel.pageSize, sort)
+        val count = mongoTemplate.count(query, ${className}::class.java)
+        val data = mongoTemplate.find(query.with(pageableAndSort), ${className}::class.java)
+        return PageImpl(data, pageableAndSort, count)
+    }
+
+    private fun buildSearchQuery(requestModel: ${modelClassName}): Query {
+        val query = Query()
+        <#list eqList as fieldName>
+        if (!requestModel.${fieldName}.isNullOrEmpty()) {
+            query.addCriteria(Criteria.where("${fieldName}").`is`(requestModel.${fieldName}))
+        }
+        </#list>
+        <#list likeList as fieldName>
+        if (!requestModel.${fieldName}.isNullOrEmpty()) {
+            query.addCriteria(Criteria.where("${fieldName}").regex(".*?" + requestModel.${fieldName} + ".*"))
+        }
+        </#list>
+        return query
+    }
+}
