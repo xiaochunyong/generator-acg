@@ -63,26 +63,29 @@ module.exports = class extends Generator {
             {
                 type: 'input',
                 name: 'uatPublicPath',
-                message: 'Please input uat publicPath:',
-                default: 'https://mtabc.aihuishou.com/uat/inspection/'
+                message: 'Please input uat publicPath (like "https://mybucket.oss-cn-hangzhou.aliyuncs.com/uat/myproject":'
+                // default: 'https://mtabc.aihuishou.com/uat/inspection/'
+                // default: 'https://mybucket.oss-cn-hangzhou.aliyuncs.com/uat/myproject'
             },
             {
                 type: 'input',
                 name: 'proPublicPath',
-                message: 'Please input pro publicPath:',
-                default: 'https://mtabc.aihuishou.com/inspection/'
+                message: 'Please input pro publicPath (like "https://mybucket.oss-cn-hangzhou.aliyuncs.com/myproject":'
+                // default: 'https://mtabc.aihuishou.com/inspection/'
             },
             {
                 type: 'input',
                 name: 'uatEndpoint',
-                message: 'Please input uat endpoint:',
-                default: 'https://uat007.aihuishou.com'
+                message: 'Please input uat server api endpoint (like "https://uatapi.xxx.com"):',
+                // default: 'https://uat007.aihuishou.com'
+                // default: 'https://uat<project>.company.com'
             },
             {
                 type: 'input',
                 name: 'proEndpoint',
-                message: 'Please input pro endpoint:',
-                default: 'https://007.aihuishou.com'
+                message: 'Please input pro server api endpoint (like "https://api.xxx.com"):',
+                // default: 'https://007.aihuishou.com'
+                default: ''
             },
             {
                 type: 'input',
