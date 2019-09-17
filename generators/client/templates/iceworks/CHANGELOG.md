@@ -5,5 +5,5 @@ src/apis/api_repleace.js
 src/apis/apiGenerator.js.ejs
 src/apis/apiWrapper.js
 src/config/app.js
-src/config/server.js
+src/config/server.js.ejs
 src/utils

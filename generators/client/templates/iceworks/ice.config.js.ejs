@@ -26,6 +26,10 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
   },
+  define: {
+    // 此处不能省略 JSON.stringify，否则构建过程会出现语法问题
+    ENV: JSON.stringify(process.env.ENV),
+  },
   chainWebpack: (config, { command }) => {
     if (command === 'build') {
       config.optimization.splitChunks({

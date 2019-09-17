@@ -7,24 +7,19 @@ switch (env) {
   case 'uat':
     serverConfig = {
       domain: '',
-      apiEndpoint: '//uat007.aihuishou.com',
-      websocketEndpoint: './inspection-websocket',
+      apiEndpoint: '<%= uatEndpoint %>',
     };
     break;
   case 'pro':
     serverConfig = {
       domain: '',
-      apiEndpoint: '//007.aihuishou.com',
-      websocketEndpoint: './inspection-websocket',
+      apiEndpoint: '<%= proEndpoint %>',
     };
     break;
   default:
     serverConfig = {
       domain: 'http://localhost:3000',
       apiEndpoint: '//localhost:8080',
-      websocketEndpoint: 'http://localhost:8080/inspection-websocket',
-      // apiEndpoint: "http://192.168.9.47:8080",
-      // apiEndpoint: 'http://192.168.9.220:8080',
     };
     break;
 }

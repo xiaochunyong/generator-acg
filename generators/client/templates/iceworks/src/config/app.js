@@ -1,8 +1,9 @@
 /**
  * 应用程序配置
- * Created by wubin on 2018/6/19.
+ * Created by Ely on 2019/9/17.
  */
-export const env = process.env.ENV || 'dev';
+// eslint-disable-next-line no-undef
+export const env = ENV || 'dev';
 
 export const isProduction = env === 'pro';
 
