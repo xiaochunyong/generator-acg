@@ -26,7 +26,7 @@
         <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
         <mysql.version>8.0.16</mysql.version>
         <h2.version>1.4.199</h2.version>
-        <hibernate.version>5.4.4.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <swagger.version>2.9.2</swagger.version>
     </properties>
 
